@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <title>Sweetbound</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        overflow: hidden;
+      }
+      #game-container {
+        width: 100%;
+        height: 100%;
+        touch-action: none;
+      }
+      canvas {
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game-container"></div>
+    <!-- Phaser v3.90.0 "Tsugumi" -->
+    <script src="phaser.min.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
