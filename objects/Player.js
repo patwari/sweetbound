@@ -19,7 +19,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
 
     this.spawnPoint = new Phaser.Math.Vector2(x, y);
-    this.checkpoint = null;
 
     if (Player.sharedLives === undefined) {
       Player.sharedLives = 5;
@@ -174,13 +173,13 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
   respawn() {
-    const point = this.checkpoint || this.spawnPoint;
-    this.setPosition(point.x, point.y);
+    // Respawn always returns to the world start.
+    this.setPosition(this.spawnPoint.x, this.spawnPoint.y);
     this.body.setVelocity(0, 0);
   }
 
   setCheckpoint(x, y) {
-    this.checkpoint = new Phaser.Math.Vector2(x, y);
+    // Checkpoint system removed; keep method for compatibility.
   }
 
   getLives() {
