@@ -7,6 +7,8 @@ import WaterScene from "./scenes/WaterScene.js";
 import LavaScene from "./scenes/LavaScene.js";
 import GameOverScene from "./scenes/GameOverScene.js";
 
+console.log("[Sweetbound] main.js loaded");
+
 gameConfig.scene = [
   BootScene,
   MenuScene,
@@ -17,4 +19,9 @@ gameConfig.scene = [
   GameOverScene,
 ];
 
-new Phaser.Game(gameConfig);
+try {
+  const game = new Phaser.Game(gameConfig);
+  console.log("[Sweetbound] Phaser.Game initialized", game);
+} catch (error) {
+  console.error("[Sweetbound] Phaser.Game failed", error);
+}

@@ -4,10 +4,11 @@ export default class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    // No assets yet.
+    console.log("[Sweetbound] BootScene preload");
   }
 
   create() {
+    console.log("[Sweetbound] BootScene create -> MenuScene");
     this.scene.start("MenuScene");
   }
 }

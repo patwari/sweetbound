@@ -1,0 +1,13 @@
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnType": false,
+  "dotnet.codeLens.enableReferencesCodeLens": false,
+  "gitlens.codeLens.enabled": false,
+  "cSpell.language": "en, en-GB, en-US",
+  "files.exclude": {
+    "phaser.min.js": true,
+    "**/bin/": true,
+    "**/obj/": true
+  },
+  "cSpell.words": ["rahul"]
+}
