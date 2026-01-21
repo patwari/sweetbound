@@ -9,5 +9,5 @@
     "**/bin/": true,
     "**/obj/": true
   },
-  "cSpell.words": ["rahul"]
+  "cSpell.words": ["Cooldown", "rahul", "tsgen"]
 }
