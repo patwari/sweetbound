@@ -7,19 +7,17 @@ export default class LavaScene extends Phaser.Scene {
     this.player = null;
     this.worldWidth = 1800;
     this.worldHeight = 1200;
-    this.hitCooldown = false;
     this.lavaZone = null;
+    this.winTriggered = false;
   }
 
   preload() {
-    console.log(`LAVA preload called`);
     this.load.image("moving_platform", "assets/tiles/moving_platform.png");
     this.load.image("lava_tile", "assets/tiles/lava_tile.png");
     this.load.image("portal", "assets/tiles/portal.png");
   }
 
   create() {
-    console.log(`LAVA create called`);
     this.physics.world.setBounds(0, 0, this.worldWidth, this.worldHeight);
     this.cameras.main.setBounds(0, 0, this.worldWidth, this.worldHeight);
 
@@ -27,8 +25,8 @@ export default class LavaScene extends Phaser.Scene {
 
     // Start platform (safe, static).
     const startPlatform = this.physics.add.staticSprite(
-      160,
-      groundY - 80,
+      220,
+      groundY - 90,
       "moving_platform",
     );
     startPlatform.setScale(1.2, 1);
@@ -36,73 +34,73 @@ export default class LavaScene extends Phaser.Scene {
 
     const horizontalA = new MovingPlatform(
       this,
-      520,
-      groundY - 140,
+      340,
+      groundY - 130,
       "moving_platform",
       {
         type: "horizontal",
-        distance: 220,
-        duration: 2600,
+        distance: 140,
+        duration: 2200,
       },
     );
 
     const verticalA = new MovingPlatform(
       this,
-      860,
-      groundY - 240,
+      560,
+      groundY - 210,
       "moving_platform",
       {
         type: "vertical",
-        distance: 180,
-        duration: 2300,
+        distance: 120,
+        duration: 2100,
       },
     );
 
     const horizontalB = new MovingPlatform(
       this,
-      1180,
-      groundY - 360,
+      820,
+      groundY - 290,
       "moving_platform",
       {
         type: "horizontal",
-        distance: 220,
-        duration: 2600,
+        distance: 160,
+        duration: 2300,
       },
     );
 
     const verticalB = new MovingPlatform(
       this,
-      1460,
-      groundY - 520,
+      1080,
+      groundY - 370,
       "moving_platform",
       {
         type: "vertical",
-        distance: 200,
-        duration: 2400,
+        distance: 140,
+        duration: 2200,
       },
     );
 
     const circular = new MovingPlatform(
       this,
       1320,
-      groundY - 700,
+      groundY - 450,
       "moving_platform",
       {
         type: "circular",
-        radius: 90,
-        duration: 2800,
+        radius: 60,
+        duration: 2400,
       },
     );
 
     const finalPlatform = this.physics.add.staticSprite(
-      this.worldWidth - 140,
-      groundY - 840,
+      this.worldWidth - 180,
+      groundY - 520,
       "moving_platform",
     );
     finalPlatform.setScale(1.2, 1);
     finalPlatform.refreshBody();
 
-    this.player = new Player(this, 160, groundY - 140);
+    this.player = new Player(this, 220, groundY - 150);
     this.player.setMode("lava");
 
     this.physics.add.collider(this.player, startPlatform);
@@ -113,16 +111,19 @@ export default class LavaScene extends Phaser.Scene {
     this.physics.add.collider(this.player, circular);
     this.physics.add.collider(this.player, finalPlatform);
 
-    this._createLavaFloor();
+    const lowestSafeY = startPlatform.y + startPlatform.displayHeight * 0.5;
+    this._createLavaFloor(lowestSafeY + 8);
 
     const goal = this.physics.add.staticSprite(
-      this.worldWidth - 140,
-      groundY - 910,
+      this.worldWidth - 180,
+      groundY - 590,
       "portal",
     );
     goal.setScale(1.6);
 
     this.physics.add.overlap(this.player, goal, () => {
+      if (this.winTriggered) return;
+      this.winTriggered = true;
       this.scene.stop("HUDScene");
       this.scene.start("GameOverScene", { win: true });
     });
@@ -134,9 +135,10 @@ export default class LavaScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.08, 0.08);
   }
 
-  _createLavaFloor() {
-    const lavaHeight = 140;
-    const lavaY = this.worldHeight - lavaHeight * 0.5;
+  _createLavaFloor(lavaTop) {
+    const lavaHeight = this.worldHeight - lavaTop;
+    const lavaY = lavaTop + lavaHeight * 0.5;
+
     const lava = this.add.tileSprite(
       0,
       lavaY,
@@ -155,6 +157,7 @@ export default class LavaScene extends Phaser.Scene {
       lavaHeight,
     );
     this.physics.add.existing(this.lavaZone, true);
+    this.lavaZone.body.setSize(this.worldWidth, lavaHeight, true);
 
     this.physics.add.overlap(this.player, this.lavaZone, () => {
       this._loseLifeAndRestart();
@@ -162,9 +165,6 @@ export default class LavaScene extends Phaser.Scene {
   }
 
   _loseLifeAndRestart() {
-    if (this.hitCooldown) return;
-    this.hitCooldown = true;
-
     this.player.loseLife();
 
     if (this.player.getLives() > 0) {
