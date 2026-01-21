@@ -4,10 +4,12 @@ export default class MenuScene extends Phaser.Scene {
   }
 
   preload() {
+    console.log(`WATER preload called`);
     console.log("[Sweetbound] MenuScene preload");
   }
 
   create() {
+    console.log(`WATER create called`);
     console.log("[Sweetbound] MenuScene create");
     const { width, height } = this.scale;
     this.add
@@ -28,6 +30,7 @@ export default class MenuScene extends Phaser.Scene {
 
     const startGame = () => {
       this.scene.start("LandScene");
+      // this.scene.start("LavaScene");
     };
 
     this.input.once("pointerdown", startGame);

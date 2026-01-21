@@ -12,10 +12,12 @@ export default class HUDScene extends Phaser.Scene {
   }
 
   preload() {
+    console.log(`HUD preload called`);
     this.load.image("hud-heart", "assets/ui/heart.png");
   }
 
   create() {
+    console.log(`HUD create called`);
     this.worldText = this.add.text(0, 0, "", {
       fontFamily: "Arial, sans-serif",
       fontSize: "24px",

@@ -8,11 +8,13 @@ export default class LandScene extends Phaser.Scene {
   }
 
   preload() {
+    console.log(`LAND preload called`);
     this.load.image("land_platform", "assets/tiles/land_platform.png");
     this.load.image("portal", "assets/tiles/portal.png");
   }
 
   create() {
+    console.log(`LAND create called`);
     const { width, height } = this.scale;
 
     this.physics.world.setBounds(0, 0, width, this.worldHeight);
@@ -49,7 +51,7 @@ export default class LandScene extends Phaser.Scene {
     const portal = this.physics.add.staticSprite(
       width * 0.85,
       groundY - 320,
-      "portal"
+      "portal",
     );
     portal.setScale(0.9);
 
