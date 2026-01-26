@@ -50,8 +50,8 @@ export default class MenuScene extends Phaser.Scene {
     const startGame = () => {
       Player.sharedLives = 5;
       this.scene.stop("HUDScene");
-      // this.scene.start("LandScene");
-      this.scene.start("LavaScene");
+      this.scene.start("LandScene");
+      // this.scene.start("LavaScene");
       this.scene.launch("HUDScene");
     };
 
